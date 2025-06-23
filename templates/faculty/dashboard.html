@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="mb-4">Welcome, {{ faculty.user.first_name }}!</h2>
+        <ul class="list-group mb-3">
+          <li class="list-group-item"><strong>Email:</strong> {{ faculty.user.email }}</li>
+          <li class="list-group-item"><strong>Phone Number:</strong> {{ faculty.phone_number }}</li>
+          <li class="list-group-item"><strong>Department:</strong> {{ faculty.department }}</li>
+        </ul>
+        <h4 class="mb-3">Subjects You Teach</h4>
+        {% if subjects %}
+          <ul class="list-group mb-3">
+            {% for subject in subjects %}
+              <li class="list-group-item">{{ subject.code }} - {{ subject.name }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="alert alert-info">You are not assigned to any subjects yet.</div>
+        {% endif %}
+        <div class="d-flex gap-2 flex-wrap mt-3">
+          <a href="/announcements/create/" class="btn btn-primary">Create Announcement</a>
+          <a href="/announcements/" class="btn btn-outline-primary">View Announcements</a>
+          <a href="#" class="btn btn-outline-secondary disabled">Manage Students (Coming Soon)</a>
+          <a href="#" class="btn btn-outline-secondary disabled">Manage Results (Coming Soon)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

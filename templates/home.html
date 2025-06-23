@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height:60vh;">
+  <div class="col-md-8 text-center">
+    <img src="https://img.icons8.com/ios-filled/100/007bff/school-building.png" alt="College Logo" style="width:80px;">
+    <h1 class="display-4 fw-bold mt-3">Welcome to College MIS</h1>
+    <p class="lead text-muted mb-4">A modern Management Information System for your college. Manage students, faculty, subjects, results, and announcements with ease.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/students/register/" class="btn btn-primary btn-lg">Student Registration</a>
+      <a href="/login/" class="btn btn-outline-primary btn-lg">Student Login</a>
+      <a href="/faculty/" class="btn btn-outline-secondary btn-lg">Faculty Portal</a>
+      <a href="/admin/" class="btn btn-outline-dark btn-lg">Admin Panel</a>
+    </div>
+  </div>
+</div>
+{% endblock %} 

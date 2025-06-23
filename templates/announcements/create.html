@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4">Create Announcement</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+            {% if form.message.errors %}<div class="text-danger small">{{ form.message.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            {{ form.to_students.label_tag }}
+            {{ form.to_students }}
+            {% if form.to_students.errors %}<div class="text-danger small">{{ form.to_students.errors.0 }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            {{ form.to_groups.label_tag }}
+            {{ form.to_groups }}
+            {% if form.to_groups.errors %}<div class="text-danger small">{{ form.to_groups.errors.0 }}</div>{% endif %}
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Create</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
