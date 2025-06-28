@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row justify-content-center align-items-center" style="min-height:60vh;">
-  <div class="col-md-8 text-center">
-    <img src="https://img.icons8.com/ios-filled/100/007bff/school-building.png" alt="College Logo" style="width:80px;">
-    <h1 class="display-4 fw-bold mt-3">Welcome to College MIS</h1>
-    <p class="lead text-muted mb-4">A modern Management Information System for your college. Manage students, faculty, subjects, results, and announcements with ease.</p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="/students/register/" class="btn btn-primary btn-lg">Student Registration</a>
-      <a href="/login/" class="btn btn-outline-primary btn-lg">Student Login</a>
-      <a href="/faculty/" class="btn btn-outline-secondary btn-lg">Faculty Portal</a>
-      <a href="/admin/" class="btn btn-outline-dark btn-lg">Admin Panel</a>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="text-center mb-5">
+        <h1 class="display-4">College Management Information System</h1>
+        <p class="lead">Welcome to our comprehensive college management platform</p>
+        <div class="mb-4">
+          <a href="{% url 'students_home' %}" class="btn btn-outline-primary me-2">Student Portal</a>
+          <a href="{% url 'faculty_home' %}" class="btn btn-outline-primary">Faculty Portal</a>
+        </div>
+      </div>
+      
+      
+      
+      {% if announcements %}
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h4 class="mb-0">Recent Announcements</h4>
+          </div>
+          <div class="card-body">
+            {% for announcement in announcements %}
+              <div class="border-bottom pb-3 mb-3">
+                <h5>{{ announcement.title }}</h5>
+                <p class="text-muted">{{ announcement.content|truncatewords:30 }}</p>
+                <small class="text-muted">
+                  Posted by {{ announcement.created_by.user.first_name }} on {{ announcement.created_at|date:"M d, Y" }}
+                </small>
+              </div>
+            {% endfor %}
+            <a href="{% url 'announcement_list' %}" class="btn btn-outline-primary">View All Announcements</a>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>

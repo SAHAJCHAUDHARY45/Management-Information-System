@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4">Edit Result</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Student</label>
+            <input type="text" class="form-control" value="{{ result.student.user.first_name }} ({{ result.student.roll_number }})" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subject</label>
+            <input type="text" class="form-control" value="{{ result.subject.code }} - {{ result.subject.name }}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="marks" class="form-label">Marks</label>
+            <input type="number" class="form-control" id="marks" name="marks" value="{{ result.marks }}" min="0" max="100" required>
+          </div>
+          <button type="submit" class="btn btn-warning w-100">Update Result</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

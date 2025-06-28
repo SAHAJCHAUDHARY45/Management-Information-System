@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4">Add Result</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="student" class="form-label">Student</label>
+            <select class="form-select" id="student" name="student" required>
+              <option value="">Select Student</option>
+              {% for student in students %}
+                <option value="{{ student.id }}">{{ student.user.first_name }} ({{ student.roll_number }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <select class="form-select" id="subject" name="subject" required>
+              <option value="">Select Subject</option>
+              {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.code }} - {{ subject.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="marks" class="form-label">Marks</label>
+            <input type="number" class="form-control" id="marks" name="marks" min="0" max="100" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Add Result</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import FacultyRegistrationForm
 from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from core.models import Faculty, Subject, Student, User
+from core.models import Faculty, Subject, Student, User, Result, Announcement
 from students.forms import StudentRegistrationForm
 from django import forms
 
 # Create your views here.
 
-@staff_member_required
+def faculty_home(request):
+    announcements = Announcement.objects.all().order_by('-created_at')[:5]
+    return render(request, 'faculty/home.html', {'announcements': announcements})
+
 def register_faculty(request):
     if request.method == 'POST':
         form = FacultyRegistrationForm(request.POST)
@@ -29,7 +31,8 @@ def faculty_dashboard(request):
         return redirect('login')
     faculty = request.user.faculty
     subjects = Subject.objects.filter(faculty=faculty)
-    return render(request, 'faculty/dashboard.html', {'faculty': faculty, 'subjects': subjects})
+    students = Student.objects.all()
+    return render(request, 'faculty/dashboard.html', {'faculty': faculty, 'subjects': subjects, 'students': students})
 
 @login_required
 def manage_students(request):
@@ -108,3 +111,97 @@ def assign_subjects(request, student_id):
         return redirect('manage_students')
     subjects = Subject.objects.all()
     return render(request, 'faculty/assign_subjects.html', {'student': student, 'subjects': subjects})
+
+# Subject Management
+@login_required
+def manage_subjects(request):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    subjects = Subject.objects.all()
+    return render(request, 'faculty/manage_subjects.html', {'subjects': subjects})
+
+@login_required
+def add_subject(request):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        code = request.POST.get('code')
+        if name and code:
+            Subject.objects.create(name=name, code=code, faculty=request.user.faculty)
+            messages.success(request, 'Subject added successfully!')
+            return redirect('manage_subjects')
+    return render(request, 'faculty/add_subject.html')
+
+@login_required
+def edit_subject(request, subject_id):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    subject = get_object_or_404(Subject, id=subject_id)
+    if request.method == 'POST':
+        subject.name = request.POST.get('name')
+        subject.code = request.POST.get('code')
+        subject.save()
+        messages.success(request, 'Subject updated successfully!')
+        return redirect('manage_subjects')
+    return render(request, 'faculty/edit_subject.html', {'subject': subject})
+
+@login_required
+def delete_subject(request, subject_id):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    subject = get_object_or_404(Subject, id=subject_id)
+    if request.method == 'POST':
+        subject.delete()
+        messages.success(request, 'Subject deleted successfully!')
+        return redirect('manage_subjects')
+    return render(request, 'faculty/delete_subject.html', {'subject': subject})
+
+# Result Management
+@login_required
+def manage_results(request):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    results = Result.objects.all()
+    return render(request, 'faculty/manage_results.html', {'results': results})
+
+@login_required
+def add_result(request):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        subject_id = request.POST.get('subject')
+        marks = request.POST.get('marks')
+        if student_id and subject_id and marks:
+            student = get_object_or_404(Student, id=student_id)
+            subject = get_object_or_404(Subject, id=subject_id)
+            Result.objects.create(student=student, subject=subject, marks=marks)
+            messages.success(request, 'Result added successfully!')
+            return redirect('manage_results')
+    students = Student.objects.all()
+    subjects = Subject.objects.all()
+    return render(request, 'faculty/add_result.html', {'students': students, 'subjects': subjects})
+
+@login_required
+def edit_result(request, result_id):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    result = get_object_or_404(Result, id=result_id)
+    if request.method == 'POST':
+        result.marks = request.POST.get('marks')
+        result.save()
+        messages.success(request, 'Result updated successfully!')
+        return redirect('manage_results')
+    return render(request, 'faculty/edit_result.html', {'result': result})
+
+@login_required
+def delete_result(request, result_id):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    result = get_object_or_404(Result, id=result_id)
+    if request.method == 'POST':
+        result.delete()
+        messages.success(request, 'Result deleted successfully!')
+        return redirect('manage_results')
+    return render(request, 'faculty/delete_result.html', {'result': result})

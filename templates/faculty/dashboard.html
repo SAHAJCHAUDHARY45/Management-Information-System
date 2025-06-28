@@ -20,11 +20,45 @@
         {% else %}
           <div class="alert alert-info">You are not assigned to any subjects yet.</div>
         {% endif %}
-        <div class="d-flex gap-2 flex-wrap mt-3">
-          <a href="/announcements/create/" class="btn btn-primary">Create Announcement</a>
-          <a href="/announcements/" class="btn btn-outline-primary">View Announcements</a>
-          <a href="#" class="btn btn-outline-secondary disabled">Manage Students (Coming Soon)</a>
-          <a href="#" class="btn btn-outline-secondary disabled">Manage Results (Coming Soon)</a>
+        
+        <h4 class="mb-3">Quick Actions</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Student Management</h5>
+                <a href="{% url 'manage_students' %}" class="btn btn-primary">Manage Students</a>
+                <a href="{% url 'add_student' %}" class="btn btn-outline-primary">Add Student</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Subject Management</h5>
+                <a href="{% url 'manage_subjects' %}" class="btn btn-primary">Manage Subjects</a>
+                <a href="{% url 'add_subject' %}" class="btn btn-outline-primary">Add Subject</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Result Management</h5>
+                <a href="{% url 'manage_results' %}" class="btn btn-info">Manage Results</a>
+                <a href="{% url 'add_result' %}" class="btn btn-outline-info">Add Result</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Announcements</h5>
+                <a href="{% url 'create_announcement' %}" class="btn btn-warning">Create Announcement</a>
+                <a href="{% url 'announcement_list' %}" class="btn btn-outline-warning">View Announcements</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

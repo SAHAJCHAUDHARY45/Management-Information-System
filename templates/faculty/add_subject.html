@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4">Add Subject</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="code" class="form-label">Subject Code</label>
+            <input type="text" class="form-control" id="code" name="code" required>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="form-label">Subject Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Add Subject</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
