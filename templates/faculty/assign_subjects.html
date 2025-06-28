@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4">Assign Subjects to {{ student.user.first_name }}</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="subjects">Select Subjects</label>
+            <select name="subjects" id="subjects" class="form-select" multiple>
+              {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject in student.subjects.all %}selected{% endif %}>{{ subject.code }} - {{ subject.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-info w-100">Assign Subjects</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
