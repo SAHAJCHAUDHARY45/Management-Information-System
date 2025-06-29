@@ -9,7 +9,7 @@
           <li class="list-group-item"><strong>Email:</strong> {{ student.user.email }}</li>
           <li class="list-group-item"><strong>Phone Number:</strong> {{ student.phone_number }}</li>
           <li class="list-group-item"><strong>Roll Number:</strong> {{ student.roll_number }}</li>
-          <li class="list-group-item"><strong>Department:</strong> {{ student.department }}</li>
+          <li class="list-group-item"><strong>Department:</strong> {{ student.get_department_display }}</li>
         </ul>
         
         <h4 class="mb-3">My Subjects</h4>

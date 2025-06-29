@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Hero Section -->
+      <div class="text-center mb-5">
+        <div class="mb-4">
+          <i class="fas fa-user-graduate fa-4x text-primary"></i>
+        </div>
+        <h1 class="display-5 fw-bold text-primary mb-3">Welcome to Student Registration</h1>
+        <p class="lead text-muted">Join our College Management Information System and get access to your academic information</p>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm text-center">
+            <div class="card-body">
+              <div class="text-primary mb-3">
+                <i class="fas fa-book fa-2x"></i>
+              </div>
+              <h5 class="card-title">View Subjects</h5>
+              <p class="card-text text-muted">Access all your enrolled subjects and course materials in one place.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm text-center">
+            <div class="card-body">
+              <div class="text-success mb-3">
+                <i class="fas fa-chart-line fa-2x"></i>
+              </div>
+              <h5 class="card-title">Check Results</h5>
+              <p class="card-text text-muted">Track your academic performance and view detailed results.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm text-center">
+            <div class="card-body">
+              <div class="text-info mb-3">
+                <i class="fas fa-bullhorn fa-2x"></i>
+              </div>
+              <h5 class="card-title">Stay Updated</h5>
+              <p class="card-text text-muted">Receive important announcements and updates from faculty.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration CTA -->
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-5 text-center">
+          <h3 class="text-primary mb-3">Ready to Get Started?</h3>
+          <p class="text-muted mb-4">Create your student account in just a few minutes and start accessing your academic information.</p>
+          
+          <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+            <a href="{% url 'register_student' %}" class="btn btn-primary btn-lg px-5">
+              <i class="fas fa-user-plus me-2"></i>Register Now
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-5">
+              <i class="fas fa-sign-in-alt me-2"></i>Already Registered? Login
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Information Section -->
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <div class="card border-0 bg-light">
+            <div class="card-body">
+              <h5 class="text-primary mb-3">
+                <i class="fas fa-info-circle me-2"></i>What You'll Need
+              </h5>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i>Your roll number</li>
+                <li><i class="fas fa-check text-success me-2"></i>Valid email address</li>
+                <li><i class="fas fa-check text-success me-2"></i>Phone number</li>
+                <li><i class="fas fa-check text-success me-2"></i>Choose a username</li>
+                <li><i class="fas fa-check text-success me-2"></i>Create a password</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card border-0 bg-light">
+            <div class="card-body">
+              <h5 class="text-primary mb-3">
+                <i class="fas fa-shield-alt me-2"></i>Security & Privacy
+              </h5>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-lock text-success me-2"></i>Secure password protection</li>
+                <li><i class="fas fa-user-shield text-success me-2"></i>Personal data protection</li>
+                <li><i class="fas fa-eye-slash text-success me-2"></i>Private academic records</li>
+                <li><i class="fas fa-key text-success me-2"></i>Unique account access</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="text-center mt-5">
+        <div class="card border-0 bg-primary text-white">
+          <div class="card-body">
+            <h5 class="mb-3">
+              <i class="fas fa-question-circle me-2"></i>Need Help?
+            </h5>
+            <p class="mb-0">If you encounter any issues during registration, please contact your department or the IT support team.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Links Section -->
+      <div class="card mt-4 border-0 bg-light">
+        <div class="card-body">
+          <h5 class="text-primary mb-3">
+            <i class="fas fa-link me-2"></i>Registration Links
+          </h5>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                  <h6 class="card-title text-primary">
+                    <i class="fas fa-user-graduate me-2"></i>Student Registration
+                  </h6>
+                  <p class="card-text small text-muted">Direct link to student registration form</p>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'register_student' %}" readonly>
+                    <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard(this)">
+                      <i class="fas fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                  <h6 class="card-title text-success">
+                    <i class="fas fa-chalkboard-teacher me-2"></i>Faculty Registration
+                  </h6>
+                  <p class="card-text small text-muted">Direct link to faculty registration form</p>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'register_faculty' %}" readonly>
+                    <button class="btn btn-outline-success" type="button" onclick="copyToClipboard(this)">
+                      <i class="fas fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Note:</strong> You can share these links directly with new students or faculty members for easy registration.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyToClipboard(button) {
+    const input = button.parentElement.querySelector('input');
+    input.select();
+    input.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    
+    // Change button text temporarily
+    const icon = button.querySelector('i');
+    const originalClass = icon.className;
+    icon.className = 'fas fa-check';
+    button.classList.remove('btn-outline-primary', 'btn-outline-success');
+    button.classList.add('btn-success');
+    
+    setTimeout(() => {
+        icon.className = originalClass;
+        button.classList.remove('btn-success');
+        if (originalClass.includes('user-graduate')) {
+            button.classList.add('btn-outline-primary');
+        } else {
+            button.classList.add('btn-outline-success');
+        }
+    }, 2000);
+}
+</script>
+{% endblock %} 

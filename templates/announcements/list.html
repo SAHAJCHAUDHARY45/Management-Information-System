@@ -2,24 +2,75 @@
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-md-10">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>Announcements</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2><i class="fas fa-bullhorn me-2"></i>Announcements</h2>
       {% if user.is_authenticated and user.is_faculty %}
-        <a href="{% url 'create_announcement' %}" class="btn btn-primary">Create Announcement</a>
+        <a href="{% url 'create_announcement' %}" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i>Create Announcement
+        </a>
       {% endif %}
     </div>
+    
     {% if announcements %}
-      <div class="list-group">
+      <div class="row">
         {% for announcement in announcements %}
-          <div class="list-group-item list-group-item-action mb-2">
-            <h5 class="mb-1">{{ announcement.title }}</h5>
-            <p class="mb-1">{{ announcement.message }}</p>
-            <small class="text-muted">{{ announcement.created_at|date:"M d, Y H:i" }}</small>
+          <div class="col-12 mb-3">
+            <div class="card shadow-sm">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-primary">{{ announcement.title }}</h5>
+                <small class="text-muted">
+                  <i class="fas fa-calendar me-1"></i>{{ announcement.created_at|date:"M d, Y H:i" }}
+                </small>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ announcement.message }}</p>
+                
+                <!-- Target Information -->
+                <div class="mt-3">
+                  <small class="text-muted">
+                    <i class="fas fa-user me-1"></i>
+                    <strong>Posted by:</strong> {{ announcement.created_by.user.get_full_name|default:"Unknown" }}
+                  </small>
+                  
+                  {% if announcement.to_groups == 'all' %}
+                    <div class="mt-2">
+                      <span class="badge bg-success">
+                        <i class="fas fa-broadcast-tower me-1"></i>Sent to All Students
+                      </span>
+                    </div>
+                  {% elif announcement.to_students.all %}
+                    <div class="mt-2">
+                      <span class="badge bg-info">
+                        <i class="fas fa-users me-1"></i>Targeted Students ({{ announcement.to_students.count }})
+                      </span>
+                      <div class="mt-1">
+                        <small class="text-muted">
+                          {% for student in announcement.to_students.all|slice:":3" %}
+                            {{ student.user.get_full_name }}{% if not forloop.last %}, {% endif %}
+                          {% endfor %}
+                          {% if announcement.to_students.count > 3 %}
+                            and {{ announcement.to_students.count|add:"-3" }} more...
+                          {% endif %}
+                        </small>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="mt-2">
+                      <span class="badge bg-warning">
+                        <i class="fas fa-question-circle me-1"></i>No specific targets
+                      </span>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
           </div>
         {% endfor %}
       </div>
     {% else %}
-      <div class="alert alert-info">No announcements found.</div>
+      <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle me-2"></i>No announcements found.
+      </div>
     {% endif %}
   </div>
 </div>

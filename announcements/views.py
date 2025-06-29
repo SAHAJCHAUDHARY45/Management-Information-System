@@ -3,32 +3,91 @@ from django.contrib.auth.decorators import login_required
 from core.models import Announcement, Student, Faculty
 from .forms import AnnouncementForm
 from django.contrib import messages
+from django.db.models import Q
+from django.http import JsonResponse
+
+def debug_announcements(request):
+    """Debug view to check announcement-related issues"""
+    try:
+        data = {
+            'total_announcements': Announcement.objects.count(),
+            'user_authenticated': request.user.is_authenticated,
+            'user_username': request.user.username if request.user.is_authenticated else None,
+            'user_is_student': hasattr(request.user, 'student') if request.user.is_authenticated else False,
+            'user_is_faculty': hasattr(request.user, 'faculty') if request.user.is_authenticated else False,
+            'student_exists': request.user.student is not None if hasattr(request.user, 'student') else False,
+            'faculty_exists': request.user.faculty is not None if hasattr(request.user, 'faculty') else False,
+        }
+        
+        if request.user.is_authenticated and hasattr(request.user, 'student') and request.user.student:
+            student = request.user.student
+            data['student_announcements'] = Announcement.objects.filter(to_students=student).count()
+            data['all_announcements'] = Announcement.objects.filter(to_groups__in=['all', '']).count()
+        
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
 
 @login_required
 def announcement_list(request):
-    if hasattr(request.user, 'student'):
-        student = request.user.student
-        announcements = Announcement.objects.filter(to_students=student) | Announcement.objects.filter(to_groups__in=['all', ''])
-    elif hasattr(request.user, 'faculty'):
-        faculty = request.user.faculty
-        announcements = Announcement.objects.filter(created_by=faculty)
-    else:
-        announcements = Announcement.objects.none()
+    try:
+        if hasattr(request.user, 'student') and request.user.student:
+            # User is a student - show announcements targeted to them
+            student = request.user.student
+            announcements = Announcement.objects.filter(
+                Q(to_students=student) | 
+                Q(to_groups__in=['all', '']) |
+                Q(to_students__isnull=True, to_groups__isnull=True)
+            ).distinct().order_by('-created_at')
+        elif hasattr(request.user, 'faculty') and request.user.faculty:
+            # User is faculty - show announcements they created
+            faculty = request.user.faculty
+            announcements = Announcement.objects.filter(created_by=faculty).order_by('-created_at')
+        else:
+            # User is authenticated but not student or faculty - show all announcements
+            announcements = Announcement.objects.all().order_by('-created_at')
+    except Exception as e:
+        # If there's any error, show all announcements
+        announcements = Announcement.objects.all().order_by('-created_at')
+        messages.warning(request, f'There was an issue loading your specific announcements. Showing all announcements.')
+    
     return render(request, 'announcements/list.html', {'announcements': announcements})
 
 @login_required
 def create_announcement(request):
-    if not hasattr(request.user, 'faculty'):
-        return redirect('login')
+    if not hasattr(request.user, 'faculty') or not request.user.faculty:
+        messages.error(request, 'Only faculty members can create announcements.')
+        return redirect('announcement_list')
+    
     if request.method == 'POST':
         form = AnnouncementForm(request.POST)
         if form.is_valid():
-            announcement = form.save(commit=False)
-            announcement.created_by = request.user.faculty
-            announcement.save()
-            form.save_m2m()
-            messages.success(request, 'Announcement created!')
-            return redirect('announcement_list')
+            try:
+                announcement = form.save(commit=False)
+                announcement.created_by = request.user.faculty
+                
+                # Handle send_to_all functionality
+                if form.cleaned_data.get('send_to_all'):
+                    # If send_to_all is checked, clear individual student selections
+                    announcement.save()
+                    # Don't save many-to-many relationships yet
+                else:
+                    announcement.save()
+                    # Save the many-to-many relationships for selected students
+                    form.save_m2m()
+                
+                # Set groups field appropriately
+                if form.cleaned_data.get('send_to_all'):
+                    announcement.to_groups = 'all'
+                    announcement.save()
+                
+                messages.success(request, 'Announcement created successfully!')
+                return redirect('announcement_list')
+            except Exception as e:
+                messages.error(request, f'Failed to create announcement: {str(e)}')
+        else:
+            messages.error(request, 'Please correct the errors below and try again.')
     else:
         form = AnnouncementForm()
+    
     return render(request, 'announcements/create.html', {'form': form}) 

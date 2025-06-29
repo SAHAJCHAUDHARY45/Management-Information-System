@@ -24,9 +24,24 @@ class Subject(models.Model):
         return f"{self.code} - {self.name}" if self.code else self.name
 
 class Student(models.Model):
+    DEPARTMENT_CHOICES = [
+        ('computer_science', 'Computer Science'),
+        ('information_technology', 'Information Technology'),
+        ('electronics', 'Electronics & Communication'),
+        ('mechanical', 'Mechanical Engineering'),
+        ('civil', 'Civil Engineering'),
+        ('electrical', 'Electrical Engineering'),
+        ('business', 'Business Administration'),
+        ('arts', 'Arts & Humanities'),
+        ('science', 'Science'),
+        ('commerce', 'Commerce'),
+        ('other', 'Other'),
+    ]
+    
     user = models.OneToOneField('core.User', on_delete=models.CASCADE)
     roll_number = models.CharField(max_length=20, unique=True)
     phone_number = models.CharField(max_length=20, blank=True)
+    department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='computer_science')
     subjects = models.ManyToManyField(Subject, blank=True)
 
     def __str__(self):
