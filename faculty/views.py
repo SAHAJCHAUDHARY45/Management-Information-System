@@ -35,11 +35,32 @@ def faculty_dashboard(request):
     return render(request, 'faculty/dashboard.html', {'faculty': faculty, 'subjects': subjects, 'students': students})
 
 @login_required
+def students_by_department(request, department):
+    if not hasattr(request.user, 'faculty'):
+        return redirect('login')
+    students = Student.objects.filter(department=department)
+    department_label = dict(Student.DEPARTMENT_CHOICES).get(department, department)
+    return render(request, 'faculty/manage_students.html', {
+        'students': students,
+        'selected_department': department,
+        'department_label': department_label,
+        'departments': Student.DEPARTMENT_CHOICES,
+    })
+
+@login_required
 def manage_students(request):
     if not hasattr(request.user, 'faculty'):
         return redirect('login')
-    students = Student.objects.all()
-    return render(request, 'faculty/manage_students.html', {'students': students})
+    department = request.GET.get('department')
+    if department:
+        students = Student.objects.filter(department=department)
+    else:
+        students = Student.objects.all()
+    return render(request, 'faculty/manage_students.html', {
+        'students': students,
+        'selected_department': department,
+        'departments': Student.DEPARTMENT_CHOICES,
+    })
 
 @login_required
 def add_student(request):

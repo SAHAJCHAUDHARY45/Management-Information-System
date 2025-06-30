@@ -2,6 +2,12 @@ from django import forms
 from core.models import Announcement, Student
 
 class AnnouncementForm(forms.ModelForm):
+    department = forms.ChoiceField(
+        choices=[('', 'All Departments')] + Student.DEPARTMENT_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        help_text="Select a department to send the announcement to all students in that department."
+    )
     to_students = forms.ModelMultipleChoiceField(
         queryset=Student.objects.all().order_by('user__first_name', 'user__last_name'),
         required=False,
@@ -29,7 +35,7 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ['title', 'message', 'to_students', 'to_groups', 'send_to_all']
+        fields = ['title', 'message', 'department', 'to_students', 'to_groups', 'send_to_all']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control', 

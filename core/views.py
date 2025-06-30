@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Announcement
+from django.contrib.auth import logout
 
 def home(request):
     try:
@@ -24,3 +25,7 @@ def dashboard(request):
     except Exception as e:
         messages.error(request, f'Error accessing dashboard: {str(e)}')
         return redirect('home')
+
+def custom_logout(request):
+    logout(request)
+    return redirect('home')

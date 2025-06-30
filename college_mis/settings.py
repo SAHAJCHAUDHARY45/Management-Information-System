@@ -130,3 +130,4 @@ AUTH_USER_MODEL = 'core.User'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'

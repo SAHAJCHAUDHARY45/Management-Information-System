@@ -31,10 +31,6 @@ class Student(models.Model):
         ('mechanical', 'Mechanical Engineering'),
         ('civil', 'Civil Engineering'),
         ('electrical', 'Electrical Engineering'),
-        ('business', 'Business Administration'),
-        ('arts', 'Arts & Humanities'),
-        ('science', 'Science'),
-        ('commerce', 'Commerce'),
         ('other', 'Other'),
     ]
     

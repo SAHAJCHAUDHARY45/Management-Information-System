@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     faculty_home, register_faculty, faculty_dashboard, manage_students, add_student, edit_student, delete_student, assign_subjects,
     manage_subjects, add_subject, edit_subject, delete_subject,
-    manage_results, add_result, edit_result, delete_result
+    manage_results, add_result, edit_result, delete_result, students_by_department
 )
 from django.shortcuts import redirect
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('students/<int:student_id>/edit/', edit_student, name='edit_student'),
     path('students/<int:student_id>/delete/', delete_student, name='delete_student'),
     path('students/<int:student_id>/assign_subjects/', assign_subjects, name='assign_subjects'),
+    path('students/department/<str:department>/', students_by_department, name='students_by_department'),
     # Subject Management URLs
     path('subjects/', manage_subjects, name='manage_subjects'),
     path('subjects/add/', add_subject, name='add_subject'),

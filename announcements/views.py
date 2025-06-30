@@ -65,22 +65,23 @@ def create_announcement(request):
             try:
                 announcement = form.save(commit=False)
                 announcement.created_by = request.user.faculty
-                
-                # Handle send_to_all functionality
-                if form.cleaned_data.get('send_to_all'):
-                    # If send_to_all is checked, clear individual student selections
+                department = form.cleaned_data.get('department')
+                send_to_all = form.cleaned_data.get('send_to_all')
+                # If send_to_all is checked, send to all students
+                if send_to_all:
                     announcement.save()
-                    # Don't save many-to-many relationships yet
+                # If department is selected, send to all students in that department
+                elif department:
+                    announcement.save()
+                    students_in_dept = Student.objects.filter(department=department)
+                    announcement.to_students.set(students_in_dept)
                 else:
                     announcement.save()
-                    # Save the many-to-many relationships for selected students
                     form.save_m2m()
-                
                 # Set groups field appropriately
-                if form.cleaned_data.get('send_to_all'):
+                if send_to_all:
                     announcement.to_groups = 'all'
                     announcement.save()
-                
                 messages.success(request, 'Announcement created successfully!')
                 return redirect('announcement_list')
             except Exception as e:
