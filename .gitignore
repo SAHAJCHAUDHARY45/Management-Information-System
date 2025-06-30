@@ -1,0 +1,12 @@
+# Environments
+.env
+
+# Database
+db.sqlite3
+
+# Static files
+/staticfiles/
+
+# Python
+*.pyc
+__pycache__/ 
