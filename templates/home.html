@@ -1,177 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="container">
+<div class="container py-5">
+  <!-- Hero Section -->
+  <div class="text-center mb-5">
+    <img src="https://www.sikshapedia.com/public/data/colleges/adani-university-ahmedabad-gujarat/adani-university-ahmedabad-gujarat-logo.webp" alt="Adani University" style="height: 80px;" class="mb-3"/>
+    <h1 class="display-4 fw-bold text-primary">Welcome to Adani University MIS</h1>
+    <p class="lead text-muted mb-4">A unified platform for managing academic information, results, and announcements.</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="{% url 'student_registration_link' %}" class="btn btn-primary btn-lg px-4">
+        <i class="fas fa-user-plus me-2"></i>Register
+      </a>
+      <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4">
+        <i class="fas fa-sign-in-alt me-2"></i>Login
+      </a>
+    </div>
+  </div>
+
+  <!-- Features Grid -->
+  <div class="row text-center mb-5">
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-bullhorn fa-2x text-primary mb-3"></i>
+          <h5 class="card-title">Announcements</h5>
+          <p class="card-text text-muted">Stay updated with the latest news and academic notifications.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
+          <h5 class="card-title">Results</h5>
+          <p class="card-text text-muted">Access your academic results securely and instantly.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fas fa-book fa-2x text-info mb-3"></i>
+          <h5 class="card-title">Academic Info</h5>
+          <p class="card-text text-muted">View your subjects, schedules, and academic records.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact/Help Section -->
   <div class="row justify-content-center">
-    <div class="col-md-12">
-      <!-- Hero Section -->
-      <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary">College Management Information System</h1>
-        <p class="lead text-muted">Streamlining education management for students and faculty</p>
-        <div class="mb-4">
-          <a href="{% url 'students_home' %}" class="btn btn-primary btn-lg me-3">
-            <i class="fas fa-user-graduate me-2"></i>Student Portal
-          </a>
-          <a href="{% url 'faculty_home' %}" class="btn btn-success btn-lg">
-            <i class="fas fa-chalkboard-teacher me-2"></i>Faculty Portal
-          </a>
+    <div class="col-md-8">
+      <div class="card border-0 bg-light shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="mb-3 text-primary"><i class="fas fa-question-circle me-2"></i>Need Help?</h5>
+          <p class="mb-0">For assistance, contact your department or the IT support team at <a href="mailto:support@adaniuniversity.edu.in">support@adaniuniversity.edu.in</a>.</p>
         </div>
       </div>
-
-      <!-- Statistics Section -->
-      <div class="row mb-5">
-        <div class="col-md-3 mb-3">
-          <div class="card text-center border-0 shadow-sm h-100">
-            <div class="card-body">
-              <div class="text-primary mb-2">
-                <i class="fas fa-users fa-2x"></i>
-              </div>
-              <h4 class="card-title">Students</h4>
-              <p class="card-text text-muted">Manage student records and academic progress</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card text-center border-0 shadow-sm h-100">
-            <div class="card-body">
-              <div class="text-success mb-2">
-                <i class="fas fa-chalkboard-teacher fa-2x"></i>
-              </div>
-              <h4 class="card-title">Faculty</h4>
-              <p class="card-text text-muted">Faculty management and course assignments</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card text-center border-0 shadow-sm h-100">
-            <div class="card-body">
-              <div class="text-info mb-2">
-                <i class="fas fa-book fa-2x"></i>
-              </div>
-              <h4 class="card-title">Subjects</h4>
-              <p class="card-text text-muted">Course and subject management system</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card text-center border-0 shadow-sm h-100">
-            <div class="card-body">
-              <div class="text-warning mb-2">
-                <i class="fas fa-chart-line fa-2x"></i>
-              </div>
-              <h4 class="card-title">Results</h4>
-              <p class="card-text text-muted">Academic performance tracking</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Portal Access Section -->
-      <div class="row mb-5">
-        <div class="col-md-6 mb-4">
-          <div class="card shadow-sm h-100 border-0">
-            <div class="card-body text-center p-4">
-              <div class="text-primary mb-3">
-                <i class="fas fa-user-graduate fa-3x"></i>
-              </div>
-              <h3 class="card-title">Student Portal</h3>
-              <p class="card-text text-muted">Access your academic information, view subjects, check results, and stay updated with college announcements.</p>
-              <div class="mt-3">
-                {% if user.is_authenticated and user.student %}
-                  <a href="{% url 'student_dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
-                {% else %}
-                  <a href="{% url 'student_registration_link' %}" class="btn btn-outline-primary me-2">Join as Student</a>
-                  <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="card shadow-sm h-100 border-0">
-            <div class="card-body text-center p-4">
-              <div class="text-success mb-3">
-                <i class="fas fa-chalkboard-teacher fa-3x"></i>
-              </div>
-              <h3 class="card-title">Faculty Portal</h3>
-              <p class="card-text text-muted">Manage students, subjects, results, create announcements, and oversee academic activities.</p>
-              <div class="mt-3">
-                {% if user.is_authenticated and user.faculty %}
-                  <a href="{% url 'faculty_dashboard' %}" class="btn btn-success">Go to Dashboard</a>
-                {% else %}
-                  <a href="{% url 'register_faculty' %}" class="btn btn-outline-success me-2">Register as Faculty</a>
-                  <a href="{% url 'login' %}" class="btn btn-success">Login</a>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Features Section -->
-      <div class="row mb-5">
-        <div class="col-12">
-          <h2 class="text-center mb-4">Key Features</h2>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center">
-              <div class="text-info mb-3">
-                <i class="fas fa-user-plus fa-2x"></i>
-              </div>
-              <h5 class="card-title">User Management</h5>
-              <p class="card-text">Comprehensive user registration and profile management for students and faculty.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center">
-              <div class="text-warning mb-3">
-                <i class="fas fa-bullhorn fa-2x"></i>
-              </div>
-              <h5 class="card-title">Announcements</h5>
-              <p class="card-text">Real-time announcements and notifications to keep everyone informed.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center">
-              <div class="text-danger mb-3">
-                <i class="fas fa-chart-bar fa-2x"></i>
-              </div>
-              <h5 class="card-title">Academic Tracking</h5>
-              <p class="card-text">Track academic performance, manage subjects, and generate comprehensive reports.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Announcements Section -->
-      {% if announcements %}
-        <div class="card shadow-sm border-0">
-          <div class="card-header bg-primary text-white">
-            <h4 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Recent Announcements</h4>
-          </div>
-          <div class="card-body">
-            {% for announcement in announcements %}
-              <div class="border-bottom pb-3 mb-3">
-                <h5 class="text-primary">{{ announcement.title }}</h5>
-                <p class="text-muted">{{ announcement.message|truncatewords:30 }}</p>
-                <small class="text-muted">
-                  <i class="fas fa-user me-1"></i>Posted by {{ announcement.created_by.user.first_name }} 
-                  <i class="fas fa-calendar me-1 ms-2"></i>{{ announcement.created_at|date:"M d, Y" }}
-                </small>
-              </div>
-            {% endfor %}
-            <div class="text-center">
-              <a href="{% url 'announcement_list' %}" class="btn btn-outline-primary">
-                <i class="fas fa-list me-2"></i>View All Announcements
-              </a>
-            </div>
-          </div>
-        </div>
-      {% endif %}
     </div>
   </div>
 </div>

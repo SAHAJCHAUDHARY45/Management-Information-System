@@ -1,1 +1,0 @@
-web: gunicorn college_mis.wsgi --log-file - 
