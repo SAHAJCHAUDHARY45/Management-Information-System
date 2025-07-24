@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from core.models import Faculty, Subject, Student, User, Result, Announcement
 from students.forms import StudentRegistrationForm
 from django import forms
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -32,7 +33,17 @@ def faculty_dashboard(request):
     faculty = request.user.faculty
     subjects = Subject.objects.filter(faculty=faculty)
     students = Student.objects.all()
-    return render(request, 'faculty/dashboard.html', {'faculty': faculty, 'subjects': subjects, 'students': students})
+    total_students = students.count()
+    total_subjects = subjects.count()
+    recent_announcements = Announcement.objects.all().order_by('-created_at')[:3]
+    return render(request, 'faculty/dashboard.html', {
+        'faculty': faculty,
+        'subjects': subjects,
+        'students': students,
+        'total_students': total_students,
+        'total_subjects': total_subjects,
+        'recent_announcements': recent_announcements,
+    })
 
 @login_required
 def students_by_department(request, department):
@@ -56,10 +67,20 @@ def manage_students(request):
         students = Student.objects.filter(department=department)
     else:
         students = Student.objects.all()
+    results = Result.objects.all()
+    announcements = Announcement.objects.all().order_by('-created_at')
+    total_students = students.count()
+    total_results = results.count()
+    total_announcements = announcements.count()
     return render(request, 'faculty/manage_students.html', {
         'students': students,
+        'results': results,
+        'announcements': announcements,
         'selected_department': department,
         'departments': Student.DEPARTMENT_CHOICES,
+        'total_students': total_students,
+        'total_results': total_results,
+        'total_announcements': total_announcements,
     })
 
 @login_required
@@ -198,6 +219,14 @@ def add_result(request):
             student = get_object_or_404(Student, id=student_id)
             subject = get_object_or_404(Subject, id=subject_id)
             Result.objects.create(student=student, subject=subject, marks=marks)
+            # Send email notification to student
+            send_mail(
+                subject='New Result Published',
+                message=f'Dear {student.user.first_name}, your result for {subject.name} has been published. Please log in to view your marks.',
+                from_email=None,
+                recipient_list=[student.user.email],
+                fail_silently=True,
+            )
             messages.success(request, 'Result added successfully!')
             return redirect('manage_results')
     students = Student.objects.all()

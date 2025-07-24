@@ -1,4 +1,40 @@
-body { background-color: #f8f9fa; }
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f8fafc;
+}
+
+.navbar, .bg-primary {
+    background-color: #003366 !important;
+}
+
+.text-primary, .btn-primary {
+    color: #fff !important;
+    background-color: #003366 !important;
+    border-color: #003366 !important;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #00509e !important;
+    border-color: #00509e !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #003366;
+}
+
+a {
+    color: #003366;
+}
+
+a:hover {
+    color: #00509e;
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
 .navbar { margin-bottom: 2rem; }
 .container { margin-top: 2rem; }
 

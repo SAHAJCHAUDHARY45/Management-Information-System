@@ -5,6 +5,8 @@ from .forms import AnnouncementForm
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
 
 def debug_announcements(request):
     """Debug view to check announcement-related issues"""
@@ -82,6 +84,16 @@ def create_announcement(request):
                 if send_to_all:
                     announcement.to_groups = 'all'
                     announcement.save()
+                # Send email notification to all users
+                User = get_user_model()
+                emails = list(User.objects.values_list('email', flat=True))
+                send_mail(
+                    subject='New Announcement',
+                    message=f'New announcement: {announcement.title}\n\n{announcement.content}',
+                    from_email=None,
+                    recipient_list=emails,
+                    fail_silently=True,
+                )
                 messages.success(request, 'Announcement created successfully!')
                 return redirect('announcement_list')
             except Exception as e:

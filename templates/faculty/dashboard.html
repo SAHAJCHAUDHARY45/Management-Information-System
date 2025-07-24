@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm border-0">
+      <div class="card-body">
+        <h6 class="text-muted">Total Students</h6>
+        <h2 class="fw-bold text-primary">{{ total_students }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm border-0">
+      <div class="card-body">
+        <h6 class="text-muted">Subjects You Teach</h6>
+        <h2 class="fw-bold text-success">{{ total_subjects }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm border-0">
+      <div class="card-body">
+        <h6 class="text-muted">Recent Announcements</h6>
+        <ul class="list-unstyled mb-0">
+          {% for ann in recent_announcements %}
+            <li class="small mb-1">
+              <strong>{{ ann.title }}</strong><br>
+              <span class="text-muted">{{ ann.created_at|date:"M d, Y" }}</span>
+            </li>
+          {% empty %}
+            <li class="text-muted">No announcements</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row justify-content-center">
   <div class="col-md-10">
     <div class="card shadow-sm mb-4">

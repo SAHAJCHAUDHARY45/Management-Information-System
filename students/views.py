@@ -44,15 +44,19 @@ def student_dashboard(request):
         if not hasattr(request.user, 'student') or not request.user.student:
             messages.error(request, 'You do not have a student profile. Please contact the administrator.')
             return redirect('home')
-        
         student = request.user.student
         subjects = student.subjects.all()
         results = Result.objects.filter(student=student)
-        
+        total_subjects = subjects.count()
+        total_results = results.count()
+        recent_announcements = Announcement.objects.all().order_by('-created_at')[:3]
         return render(request, 'students/dashboard.html', {
             'student': student,
             'subjects': subjects,
-            'results': results
+            'results': results,
+            'total_subjects': total_subjects,
+            'total_results': total_results,
+            'recent_announcements': recent_announcements,
         })
     except Exception as e:
         messages.error(request, f'Error loading dashboard: {str(e)}')
