@@ -3,23 +3,25 @@
 {% block content %}
 <div class="container py-5">
   <!-- Hero Section -->
-  <div class="text-center mb-5">
-    <img src="https://www.sikshapedia.com/public/data/colleges/adani-university-ahmedabad-gujarat/adani-university-ahmedabad-gujarat-logo.webp" alt="Adani University" style="height: 80px;" class="mb-3"/>
-    <h1 class="display-4 fw-bold text-primary">Welcome to Adani University MIS</h1>
-    <p class="lead text-muted mb-4">A unified platform for managing academic information, results, and announcements.</p>
-    <div class="d-flex justify-content-center gap-3">
-      <a href="{% url 'student_registration_link' %}" class="btn btn-primary btn-lg px-4">
-        <i class="fas fa-user-plus me-2"></i>Register
-      </a>
-      <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4">
-        <i class="fas fa-sign-in-alt me-2"></i>Login
-      </a>
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8 text-center mb-5">
+      <img src="https://www.sikshapedia.com/public/data/colleges/adani-university-ahmedabad-gujarat/adani-university-ahmedabad-gujarat-logo.webp" alt="Adani University" style="height: 80px;" class="mb-3 img-fluid"/>
+      <h1 class="display-4 fw-bold text-primary">Welcome to Adani University MIS</h1>
+      <p class="lead text-muted mb-4">A unified platform for managing academic information, results, and announcements.</p>
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+        <a href="{% url 'student_registration_link' %}" class="btn btn-primary btn-lg px-4 w-100 w-sm-auto">
+          <i class="fas fa-user-plus me-2"></i>Register
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4 w-100 w-sm-auto">
+          <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+      </div>
     </div>
   </div>
 
   <!-- Features Grid -->
-  <div class="row text-center mb-5">
-    <div class="col-md-4 mb-4">
+  <div class="row text-center mb-5 g-4">
+    <div class="col-12 col-md-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <i class="fas fa-bullhorn fa-2x text-primary mb-3"></i>
@@ -28,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4 mb-4">
+    <div class="col-12 col-md-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
@@ -37,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4 mb-4">
+    <div class="col-12 col-md-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <i class="fas fa-book fa-2x text-info mb-3"></i>
@@ -50,7 +52,7 @@
 
   <!-- Contact/Help Section -->
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-12 col-md-8">
       <div class="card border-0 bg-light shadow-sm">
         <div class="card-body text-center">
           <h5 class="mb-3 text-primary"><i class="fas fa-question-circle me-2"></i>Need Help?</h5>

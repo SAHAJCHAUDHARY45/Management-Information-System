@@ -1,96 +1,97 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row mb-4">
-  <div class="col-md-4">
-    <div class="card text-center shadow-sm border-0">
-      <div class="card-body">
-        <h6 class="text-muted">Total Students</h6>
-        <h2 class="fw-bold text-primary">{{ total_students }}</h2>
+<div class="container-fluid px-2 px-md-4 py-4">
+  <div class="row mb-4 g-3">
+    <div class="col-12 col-md-4">
+      <div class="card text-center shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h6 class="text-muted">Total Students</h6>
+          <h2 class="fw-bold text-primary">{{ total_students }}</h2>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-center shadow-sm border-0">
-      <div class="card-body">
-        <h6 class="text-muted">Subjects You Teach</h6>
-        <h2 class="fw-bold text-success">{{ total_subjects }}</h2>
+    <div class="col-12 col-md-4">
+      <div class="card text-center shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h6 class="text-muted">Subjects You Teach</h6>
+          <h2 class="fw-bold text-success">{{ total_subjects }}</h2>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-center shadow-sm border-0">
-      <div class="card-body">
-        <h6 class="text-muted">Recent Announcements</h6>
-        <ul class="list-unstyled mb-0">
-          {% for ann in recent_announcements %}
-            <li class="small mb-1">
-              <strong>{{ ann.title }}</strong><br>
-              <span class="text-muted">{{ ann.created_at|date:"M d, Y" }}</span>
-            </li>
-          {% empty %}
-            <li class="text-muted">No announcements</li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row justify-content-center">
-  <div class="col-md-10">
-    <div class="card shadow-sm mb-4">
-      <div class="card-body">
-        <h2 class="mb-4">Welcome, {{ faculty.user.first_name }}!</h2>
-        <ul class="list-group mb-3">
-          <li class="list-group-item"><strong>Email:</strong> {{ faculty.user.email }}</li>
-          <li class="list-group-item"><strong>Phone Number:</strong> {{ faculty.phone_number }}</li>
-          <li class="list-group-item"><strong>Department:</strong> {{ faculty.department }}</li>
-        </ul>
-        <h4 class="mb-3">Subjects You Teach</h4>
-        {% if subjects %}
-          <ul class="list-group mb-3">
-            {% for subject in subjects %}
-              <li class="list-group-item">{{ subject.code }} - {{ subject.name }}</li>
+    <div class="col-12 col-md-4">
+      <div class="card text-center shadow-sm border-0 h-100">
+        <div class="card-body">
+          <h6 class="text-muted">Recent Announcements</h6>
+          <ul class="list-unstyled mb-0">
+            {% for ann in recent_announcements %}
+              <li class="small mb-1">
+                <strong>{{ ann.title }}</strong><br>
+                <span class="text-muted">{{ ann.created_at|date:"M d, Y" }}</span>
+              </li>
+            {% empty %}
+              <li class="text-muted">No announcements</li>
             {% endfor %}
           </ul>
-        {% else %}
-          <div class="alert alert-info">You are not assigned to any subjects yet.</div>
-        {% endif %}
-        
-        <h4 class="mb-3">Quick Actions</h4>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Student Management</h5>
-                <a href="{% url 'manage_students' %}" class="btn btn-primary">Manage Students</a>
-                <a href="{% url 'add_student' %}" class="btn btn-outline-primary">Add Student</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h2 class="mb-4">Welcome, {{ faculty.user.first_name }}!</h2>
+          <ul class="list-group mb-3">
+            <li class="list-group-item"><strong>Email:</strong> {{ faculty.user.email }}</li>
+            <li class="list-group-item"><strong>Phone Number:</strong> {{ faculty.phone_number }}</li>
+            <li class="list-group-item"><strong>Department:</strong> {{ faculty.department }}</li>
+          </ul>
+          <h4 class="mb-3">Subjects You Teach</h4>
+          {% if subjects %}
+            <ul class="list-group mb-3">
+              {% for subject in subjects %}
+                <li class="list-group-item">{{ subject.code }} - {{ subject.name }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="alert alert-info">You are not assigned to any subjects yet.</div>
+          {% endif %}
+          <h4 class="mb-3">Quick Actions</h4>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <div class="card mb-3 h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Student Management</h5>
+                  <a href="{% url 'manage_students' %}" class="btn btn-primary w-100 mb-2">Manage Students</a>
+                  <a href="{% url 'add_student' %}" class="btn btn-outline-primary w-100">Add Student</a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Subject Management</h5>
-                <a href="{% url 'manage_subjects' %}" class="btn btn-primary">Manage Subjects</a>
-                <a href="{% url 'add_subject' %}" class="btn btn-outline-primary">Add Subject</a>
+            <div class="col-12 col-md-6">
+              <div class="card mb-3 h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Subject Management</h5>
+                  <a href="{% url 'manage_subjects' %}" class="btn btn-primary w-100 mb-2">Manage Subjects</a>
+                  <a href="{% url 'add_subject' %}" class="btn btn-outline-primary w-100">Add Subject</a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Result Management</h5>
-                <a href="{% url 'manage_results' %}" class="btn btn-info">Manage Results</a>
-                <a href="{% url 'add_result' %}" class="btn btn-outline-info">Add Result</a>
+            <div class="col-12 col-md-6">
+              <div class="card mb-3 h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Result Management</h5>
+                  <a href="{% url 'manage_results' %}" class="btn btn-info w-100 mb-2">Manage Results</a>
+                  <a href="{% url 'add_result' %}" class="btn btn-outline-info w-100">Add Result</a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">Announcements</h5>
-                <a href="{% url 'create_announcement' %}" class="btn btn-warning">Create Announcement</a>
-                <a href="{% url 'announcement_list' %}" class="btn btn-outline-warning">View Announcements</a>
+            <div class="col-12 col-md-6">
+              <div class="card mb-3 h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Announcements</h5>
+                  <a href="{% url 'create_announcement' %}" class="btn btn-warning w-100 mb-2">Create Announcement</a>
+                  <a href="{% url 'announcement_list' %}" class="btn btn-outline-warning w-100">View Announcements</a>
+                </div>
               </div>
             </div>
           </div>
